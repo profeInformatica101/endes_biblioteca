@@ -1,4 +1,4 @@
-package com.endes.biblioteca;
+package com.endes.biblioteca.programa;
 
 /**
  * Hello world!

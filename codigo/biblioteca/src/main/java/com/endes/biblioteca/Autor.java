@@ -15,7 +15,18 @@ public class Autor {
 	    private String biografia;
 	    private List<Libro> librosEscritos;
 	    
+	    
 	    /**
+	     *  Constructor de autor
+	     * @param nombre  El nombre del autor a establecer.
+	     * @param biografia La biografía del autor a establecer.
+	     */
+	    public Autor(String nombre, String biografia) {
+	    	this.nombre = nombre;
+	    	this.biografia  = biografia;
+		}
+
+		/**
 	     * Obtiene la lista de libros escritos por el autor.
 	     * 
 	     * @return Una lista de objetos {@link Libro} que representa los libros escritos por el autor.

@@ -1,52 +1,79 @@
 package com.endes.biblioteca;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import com.endes.biblioteca.stub.LibroStub;
-
-import static org.junit.jupiter.api.Assertions.*;
-
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
-class AutorTest {
 
-	private Autor autor;
-    private LibroStub libroStub;
-    private final String NOMBRE_TEST = "Gabriel García Márquez";
-    private final String BIOGRAFIA_TEST = "Autor de Cien Años de Soledad y premio Nobel de literatura.";
-    
-    @BeforeEach
-    void setUp() {
-        autor = new Autor();
-        libroStub = new LibroStub();
+public class AutorTest {
+
+        private Autor autor;
+        private List<Libro> libros;
+
+        @BeforeEach
+        public void setUp() {
+            autor = new Autor("Gabriel García Márquez", "Escritor colombiano, premio Nobel de Literatura en 1982.");
+
+           
+            libros = new ArrayList<>();
+            libros.add(new EjemplarLibro("Cien años de soledad"));
+            libros.add(new EjemplarLibro("El amor en los tiempos del cólera"));
+            autor.setLibrosEscritos(libros);
+        }
+
+        @Test
+        @DisplayName("Obtener nombre del autor")
+        public void testGetNombre() {
+            assertEquals("Gabriel García Márquez", autor.getNombre());
+        }
+
+        @Test
+        @DisplayName("Obtener biografía del autor")
+        public void testGetBiografia() {
+            assertEquals("Escritor colombiano, premio Nobel de Literatura en 1982.", autor.getBiografia());
+        }
+
+        @Test
+        @DisplayName("Obtener libros escritos por el autor")
+        public void testGetLibrosEscritos() {
+            assertNotNull(autor.getLibrosEscritos());
+            assertEquals(2, autor.getLibrosEscritos().size());
+            assertEquals("Cien años de soledad", autor.getLibrosEscritos().get(0).getTitulo());
+            assertEquals("El amor en los tiempos del cólera", autor.getLibrosEscritos().get(1).getTitulo());
+        }
+
+        @Test
+        @DisplayName("Establecer nombre del autor")
+        public void testSetNombre() {
+            autor.setNombre("Jorge Luis Borges");
+            assertEquals("Jorge Luis Borges", autor.getNombre());
+        }
+
+        @Test
+        @DisplayName("Establecer biografía del autor")
+        public void testSetBiografia() {
+            autor.setBiografia("Escritor argentino, uno de los autores más destacados del siglo XX.");
+            assertEquals("Escritor argentino, uno de los autores más destacados del siglo XX.", autor.getBiografia());
+        }
+
+        @Test
+        @DisplayName("Establecer libros escritos por el autor")
+        public void testSetLibrosEscritos() {
+            List<Libro> nuevosLibros = new ArrayList<>();
+            nuevosLibros.add(new EjemplarLibro("Ficciones"));
+            nuevosLibros.add(new EjemplarLibro("El Aleph"));
+            autor.setLibrosEscritos(nuevosLibros);
+            
+            assertNotNull(autor.getLibrosEscritos());
+            assertEquals(2, autor.getLibrosEscritos().size());
+            assertEquals("Ficciones", autor.getLibrosEscritos().get(0).getTitulo());
+            assertEquals("El Aleph", autor.getLibrosEscritos().get(1).getTitulo());
+        }
     }
-
-    @Test
-    @DisplayName("Comprobar que los setters y getters de nombre y biografía funcionan correctamente")
-    void givenNombreAndBiografia_whenSettersCalled_thenGettersReturnSameValues() {
-        autor.setNombre(NOMBRE_TEST);
-        autor.setBiografia(BIOGRAFIA_TEST);
-
-        assertEquals(NOMBRE_TEST, autor.getNombre(), "El nombre del autor debería coincidir con el establecido");
-        assertEquals(BIOGRAFIA_TEST, autor.getBiografia(), "La biografía del autor debería coincidir con el establecido");
-    }
-
-    @Test
-    @DisplayName("Comprobar que la lista de libros escritos se establece y recupera correctamente")
-    void givenLibrosEscritosList_whenSettersCalled_thenGettersReturnSameList() {
-        List<Libro> librosEscritosTest = Collections.singletonList(libroStub);
-        autor.setLibrosEscritos(librosEscritosTest);
-
-        assertNotNull(autor.getLibrosEscritos(), "La lista de libros escritos no debería ser nula");
-        assertEquals(1, autor.getLibrosEscritos().size(), "La lista de libros escritos debería tener un elemento");
-        assertEquals(libroStub, autor.getLibrosEscritos().get(0), "La lista de libros escritos debería contener el libro establecido");
-    }
-
-    
-}
-
 
